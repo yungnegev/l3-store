@@ -5,6 +5,7 @@ import { ProductData } from 'types';
 import html from './productDetail.tpl.html';
 import { cartService } from '../../services/cart.service';
 import { favoritesService } from '../../services/favorites.service';
+import AnalyticsService from '../../services/analytics.service';
 
 class ProductDetail extends Component {
   more: ProductList;
@@ -52,6 +53,9 @@ class ProductDetail extends Component {
       .then((products) => {
         this.more.update(products);
       });
+
+    this._sendPageViewAnalytics();
+    this._sendProductAnalytics();  
   }
 
   private _addToCart() {
@@ -59,6 +63,8 @@ class ProductDetail extends Component {
 
     cartService.addProduct(this.product);
     this._setInCart();
+
+    this._sendCartAnalytics();
   }
 
   private _addToFavorites() {
@@ -77,6 +83,26 @@ class ProductDetail extends Component {
     this.view.btnFav.innerText = 'В избранном';
     this.view.btnFav.disabled = true;
     this.view.btnFav.style.cursor = 'default';
+  }
+
+  private _sendProductAnalytics() {
+    const eventName = this.product?.log ? 'viewCard' : 'viewCardPromo';
+    const secretKey = this.view.secretKey.getAttribute('content');
+    const payload = { ...this.product, secretKey: secretKey };
+
+    AnalyticsService.sendEvent(eventName, payload);
+  }
+
+  private _sendCartAnalytics() {
+    const product = this.product || {};
+    AnalyticsService.sendEvent('addToCart', product);
+  }
+
+  private _sendPageViewAnalytics() {
+    const url = window.location.href;
+    const payload = { url };
+
+    AnalyticsService.sendEvent('route', payload);
   }
 }
 

@@ -27,3 +27,7 @@ export const formatPrice = (price: number) => {
       .replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽'
   );
 };
+
+export const generateTimestamp = () => {
+  return new Date().toISOString();
+}

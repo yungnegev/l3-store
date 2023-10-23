@@ -1,6 +1,7 @@
 import { addElement } from '../../utils/helpers';
 import { Component } from '../component';
 import html from './homepage.tpl.html';
+import AnalyticsService from '../../services/analytics.service';
 
 import { ProductList } from '../productList/productList';
 
@@ -20,6 +21,8 @@ class Homepage extends Component {
       .then((products) => {
         this.popularProducts.update(products);
       });
+    
+    this._sendPageViewAnalytics();
 
     const isSuccessOrder = new URLSearchParams(window.location.search).get('isSuccessOrder');
     if (isSuccessOrder != null) {
@@ -29,6 +32,13 @@ class Homepage extends Component {
           'Заказ оформлен. Деньги спишутся с вашей карты, менеджер может позвонить, чтобы уточнить детали доставки'
       });
     }
+  }
+
+  private _sendPageViewAnalytics() {
+    const url = window.location.href;
+    const payload = { url };
+
+    AnalyticsService.sendEvent('route', payload);
   }
 }
 

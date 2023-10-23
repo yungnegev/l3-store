@@ -3,6 +3,7 @@ import html from './favorites.tpl.html';
 import { Product } from '../product/product';
 import { ProductData } from 'types';
 import { favoritesService } from '../../services/favorites.service';
+import AnalyticsService from '../../services/analytics.service';
 
 class Favorites extends Component {
   products!: ProductData[];
@@ -20,6 +21,15 @@ class Favorites extends Component {
       productComp.render();
       productComp.attach(this.view.favorites);
     });
+
+    this._sendPageViewAnalytics();
+  }
+
+  private _sendPageViewAnalytics() {
+    const url = window.location.href;
+    const payload = { url };
+
+    AnalyticsService.sendEvent('route', payload);
   }
 
 }
