@@ -5,14 +5,14 @@ class AnalyticsService {
     const timestamp = generateTimestamp();
     const event = { type, payload, timestamp };
 
-    console.log(`sendEvent (${type})`, event) // пока просто выводим в консоль, но вообще это должно быть отправлено на сервер
+    console.log(`sendEvent (${type})`, event) // rm
 
     fetch('/api/sendEvent', {
-      method: 'GET', // POST
+      method: 'POST', 
       headers: {
         'Content-Type': 'application/json'
       },
-       // body: JSON.stringify(event)
+       body: JSON.stringify(event)
     });
   }
 }

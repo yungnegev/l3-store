@@ -12,6 +12,7 @@ class Checkout extends Component {
 
   async render() {
     this.products = await cartService.get();
+    this._sendPageViewAnalytics()
 
     if (this.products.length < 1) {
       this.view.root.classList.add('is__empty');
@@ -37,7 +38,6 @@ class Checkout extends Component {
       body: JSON.stringify(this.products)
     });
 
-    this._sendPageViewAnalytics()
     this._sendCheckoutAnalytics();
 
     window.location.href = '/?isSuccessOrder';
