@@ -6,8 +6,7 @@ const ID_DB = '__wb-userId';
 class UserService {
   async init() {
     const id = await this.getId();
-    window.userId = id;
-    console.warn('UserID: ', id);
+    sessionStorage.setItem('currentUserId', id);
   }
 
   async getId(): Promise<string> {
@@ -16,6 +15,10 @@ class UserService {
     if (!id) id = await this._setId();
 
     return id;
+  }
+
+  getCurrentUserId(): string {
+    return sessionStorage.getItem('currentUserId') || '';
   }
 
   private async _setId(): Promise<string> {

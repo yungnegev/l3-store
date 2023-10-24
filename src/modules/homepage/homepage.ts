@@ -1,6 +1,7 @@
 import { addElement } from '../../utils/helpers';
 import { Component } from '../component';
 import html from './homepage.tpl.html';
+import { userService } from '../../services/user.service';
 
 import { ProductList } from '../productList/productList';
 
@@ -17,7 +18,7 @@ class Homepage extends Component {
   render() {
     fetch('/api/getPopularProducts', {
         headers: {
-          'x-userid': window.userId,
+          'x-userid': userService.getCurrentUserId(),
         }
   })
       .then((res) => res.json())
