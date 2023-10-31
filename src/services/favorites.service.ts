@@ -32,7 +32,7 @@ class FavoritesService {
     this._updBtnVisibility();
   }
 
-  async isInCart(product: ProductData) {
+  async isInFavorites(product: ProductData) {
     const products = await this.get();
     return products.some(({ id }) => id === product.id);
   }
