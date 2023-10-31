@@ -36,7 +36,7 @@ class ProductDetail extends Component {
     this.view.btnFav.onclick = this._addToFavorites.bind(this);
 
     const isInCart = await cartService.isInCart(this.product);
-    const isInFavorites = await favoritesService.isInCart(this.product);
+    const isInFavorites = await favoritesService.isInFavorites(this.product);
 
     if (isInCart) this._setInCart();
     if (isInFavorites) this._setInFavorites();
